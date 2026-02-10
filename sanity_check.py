@@ -1,3 +1,5 @@
+# simple sanity check runner that runs the algorithm without a pygame window and prints out the results
+
 import argparse
 from dataclasses import dataclass
 
@@ -6,6 +8,7 @@ import numpy as np
 
 @dataclass
 class Result:
+    # models the Results of running the algorithm
     cost: int
     expanded: int
     max_depth: int
@@ -15,6 +18,7 @@ class Result:
 
 
 def _find_unique_cell(grid: np.ndarray, value: float) -> tuple[int, int]:
+    # find the unique cell in the grid with the given value, and return its (row, col) coordinates
     locs = np.argwhere(grid == value)
     if len(locs) != 1:
         raise ValueError(f"Expected exactly 1 cell with value={value}, found {len(locs)}")
@@ -23,6 +27,7 @@ def _find_unique_cell(grid: np.ndarray, value: float) -> tuple[int, int]:
 
 
 def run_algorithm(algorithm_name: str, maze_id: int) -> Result:
+    #  dynamically import the algorithm module and class based on the algorithm name
     module = __import__(f"searchalgorithms.{algorithm_name}")
     algo_mod = getattr(module, algorithm_name)
     algo_cls = getattr(algo_mod, algorithm_name)
@@ -52,6 +57,7 @@ def run_algorithm(algorithm_name: str, maze_id: int) -> Result:
 
 
 def main() -> None:
+    # parse command line arguments for algorithm and maze id
     parser = argparse.ArgumentParser(description="Headless sanity runner (no pygame window)")
     parser.add_argument("--algo", required=True, choices=["bfs", "dfs", "ucs", "gbfs", "astar"])
     parser.add_argument("--maze_id", type=int, required=True)

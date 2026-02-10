@@ -2,22 +2,28 @@ from searchalgorithms.base import SearchAlgorithmBase
 
 
 def _manhattan(a, b):
+    # Calculate the Manhattan distance between two points a and b, 
+    # where a and b are (row, col) tuples
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 class bfs(SearchAlgorithmBase):
+    # Breadth-First Search algorithm implementation
     def __init__(self) -> None:
         super().__init__() 
         
     def reset(self, grid, start, goal): 
+        # Initialize the BFS algorithm with the given grid, start, and goal positions
         super().reset(grid, start, goal)
         self._came_from = {start: None} if start else {}
         self._explored_set = set()
         self._frontier_set = {start} if start else set()
 
     def getFrontier(self) -> list:
+        # Return a list of nodes currently in the frontier (for visualization purposes)
         return [item[0] for item in self._frontier]
 
     def _neighbors(self, node):
+        # Generate valid neighboring nodes (up, down, left, right) that are not walls (value 1 in the grid)
         r, c = node
         for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
             nr, nc = r + dr, c + dc
@@ -26,6 +32,7 @@ class bfs(SearchAlgorithmBase):
                     yield (nr, nc)
 
     def _reconstruct_path(self, end_node):
+        # Reconstruct the path from the start node to the given end node
         path = []
         cur = end_node
         while cur is not None:
@@ -35,10 +42,12 @@ class bfs(SearchAlgorithmBase):
         return path
 
     def _update_metrics(self):
+        # Update the metrics for expanded nodes, max depth, max frontier size, and max memory usage
         self._max_frontier_size = max(self._max_frontier_size, len(self._frontier))
         self._max_nodes_in_memory = max(self._max_nodes_in_memory, len(self._frontier) + len(self._explored))
 
     def step(self):
+        # Perform one step of the BFS algorithm
         if self._done:
             return
 
