@@ -1,4 +1,5 @@
 # simple sanity check runner that runs the algorithm without a pygame window and prints out the results
+# just for testing and debugging purposes, not for actual use in the final project
 
 import argparse
 from dataclasses import dataclass
