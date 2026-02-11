@@ -1,5 +1,6 @@
 # simple sanity check runner that runs the algorithm without a pygame window and prints out the results
-# just for testing and debugging purposes, not for actual use in the final project
+# just for testing and debugging purposes. 
+# I am only using this for testing the algorithms on the mazes without the visuals.
 
 import argparse
 from dataclasses import dataclass
